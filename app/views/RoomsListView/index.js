@@ -390,29 +390,19 @@ class RoomsListView extends React.Component {
 
   getHeader = () => {
     const { searching, canCreateRoom } = this.state;
-    const { navigation, isMasterDetail, insets } = this.props;
+    const { insets } = this.props;
     const headerTitlePosition = getHeaderTitlePosition({
       insets,
-      numIconsRight: searching ? 0 : 3
+      numIconsRight: searching ? 0 : 0
     });
 
     return {
       headerTitleAlign: "left",
       headerLeft: () =>
-        searching ? (
+        searching && (
           <HeaderButton.Container left>
             <HeaderButton.Item iconName="close" onPress={this.cancelSearch} />
           </HeaderButton.Container>
-        ) : (
-          <HeaderButton.Drawer
-            navigation={navigation}
-            testID="rooms-list-view-sidebar"
-            onPress={
-              isMasterDetail
-                ? () => navigation.navigate("ModalStackNavigator", { screen: "SettingsView" })
-                : () => navigation.toggleDrawer()
-            }
-          />
         ),
       headerTitle: () => <RoomsListHeaderView />,
       headerTitleContainerStyle: {

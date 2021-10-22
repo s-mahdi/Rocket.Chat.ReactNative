@@ -1,9 +1,9 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { I18nManager } from "react-native";
 import { themes } from "../constants/colors";
 import QueueListView from "../ee/omnichannel/views/QueueListView";
+import { CustomIcon } from "../lib/Icons";
 import { ThemeContext } from "../theme";
 import { defaultHeader, ModalAnimation, StackAnimation, themedHeader } from "../utils/navigation";
 import AddChannelTeamView from "../views/AddChannelTeamView";
@@ -58,7 +58,6 @@ import SelectListView from "../views/SelectListView";
 // Settings Stack
 import SettingsView from "../views/SettingsView";
 import ShareView from "../views/ShareView";
-import Sidebar from "../views/SidebarView";
 import StatusView from "../views/StatusView";
 import TeamChannelsView from "../views/TeamChannelsView";
 import ThemeView from "../views/ThemeView";
@@ -316,23 +315,45 @@ const DisplayPrefStackNavigator = () => {
 };
 
 // DrawerNavigator
-const Drawer = createDrawerNavigator();
+const Tab = createMaterialBottomTabNavigator();
+
 const DrawerNavigator = () => {
   const { theme } = React.useContext(ThemeContext);
-
   return (
-    <Drawer.Navigator
-      drawerContent={({ navigation, state }) => <Sidebar navigation={navigation} state={state} />}
-      drawerPosition={I18nManager.isRTL ? "right" : "left"}
-      screenOptions={{ swipeEnabled: false }}
-      drawerType="back"
-      overlayColor={`rgba(0,0,0,${themes[theme].backdropOpacity})`}>
-      <Drawer.Screen name="ChatsStackNavigator" component={ChatsStackNavigator} />
-      <Drawer.Screen name="ProfileStackNavigator" component={ProfileStackNavigator} />
-      <Drawer.Screen name="SettingsStackNavigator" component={SettingsStackNavigator} />
-      <Drawer.Screen name="AdminPanelStackNavigator" component={AdminPanelStackNavigator} />
-      <Drawer.Screen name="DisplayPrefStackNavigator" component={DisplayPrefStackNavigator} />
-    </Drawer.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Chats",
+          tabBarIcon: () => <CustomIcon name="message" size={20} color={themes[theme].titleText} />
+        }}
+        name="ChatsStackNavigator"
+        component={ChatsStackNavigator}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: () => <CustomIcon name="user" size={20} color={themes[theme].titleText} />
+        }}
+        name="ProfileStackNavigator"
+        component={ProfileStackNavigator}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Settings",
+          tabBarIcon: () => <CustomIcon name="settings" size={20} color={themes[theme].titleText} />
+        }}
+        name="SettingsStackNavigator"
+        component={SettingsStackNavigator}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Display",
+          tabBarIcon: () => <CustomIcon name="sort" size={20} color={themes[theme].titleText} />
+        }}
+        name="DisplayPrefStackNavigator"
+        component={DisplayPrefStackNavigator}
+      />
+    </Tab.Navigator>
   );
 };
 
